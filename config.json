@@ -1,0 +1,9 @@
+{
+    "comp_name": "RouteDesk A.Ş.",
+    "term_name": "Merkez Otogar Peron 1",
+    "printer": "PDF Olarak Kaydet",
+    "template": "E-Bilet (Sms/Mail)",
+    "auto_print": true,
+    "window_mode": "Pencereli",
+    "timeout": "Hiçbir Zaman"
+}
