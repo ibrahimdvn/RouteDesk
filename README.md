@@ -1,11 +1,11 @@
-# 🚌 RouteDesk — Terminal Operasyon Yönetim Sistemi
+# 🚌 RouteDesk — Terminal Operations Management System
 
 <p align="center">
   <img src="src/assets/icon.png" width="100" alt="RouteDesk Logo" />
 </p>
 
 <p align="center">
-  <b>Otobüs terminalleri için modern, masaüstü tabanlı bilet satışı ve operasyon yönetim yazılımı.</b>
+  <b>A modern, offline-first desktop ticketing and operations management software for bus terminals.</b>
 </p>
 
 <p align="center">
@@ -18,212 +18,212 @@
 
 ---
 
-## 📌 Proje Hakkında
+## 📌 About
 
-**RouteDesk**, yerel otobüs terminalleri, ulaşım acenteleri ve VIP taşıma hizmetleri için geliştirilmiş, tamamen **çevrimdışı çalışabilen** masaüstü yönetim uygulamasıdır. Sefer oluşturma, dinamik koltuk planı, bilet satışı ve müşteri kaydından oluşan entegre bir terminal operasyon ekosistemi sunar.
+**RouteDesk** is a fully offline-capable desktop management application built for local bus terminals, transportation agencies, and VIP shuttle services. It provides an integrated terminal operations ecosystem covering trip scheduling, dynamic seat layout management, ticket sales, and customer records.
 
-Proje aynı zamanda bir **kurumsal web sitesi** ve **uzaktan yönetim paneli (admin)** içermektedir.
+The project also includes a **corporate marketing website** and a **remote admin panel** — all living within the same repository.
 
 ---
 
-## 🗂️ Proje Yapısı
+## 🗂️ Project Structure
 
 ```
 RouteDesk/
 │
-├── src/                        # Masaüstü uygulaması (PyQt6)
-│   ├── assets/                 # İkon ve görseller
-│   ├── components/             # Sidebar vb. ortak bileşenler
-│   ├── database/               # SQLite veritabanı yöneticisi
-│   ├── styles/                 # QSS tema dosyaları
-│   ├── ui/                     # Tüm ekran modülleri
-│   └── main.py                 # Uygulama giriş noktası
+├── src/                        # Desktop application (PyQt6)
+│   ├── assets/                 # Icons and images
+│   ├── components/             # Shared components (e.g., Sidebar)
+│   ├── database/               # SQLite database manager
+│   ├── styles/                 # QSS theme files
+│   ├── ui/                     # All screen modules
+│   └── main.py                 # Application entry point
 │
-├── website/                    # Kurumsal web sitesi (Next.js 15)
+├── website/                    # Corporate website (Next.js 15)
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── admin/          # Gizli yönetim paneli (/admin)
-│   │   │   ├── api/admin/      # Login/Logout API rotaları
-│   │   │   ├── gizlilik/       # Gizlilik Politikası sayfası
-│   │   │   ├── hizmet-sartlari/ # Hizmet Şartları sayfası
-│   │   │   ├── cerez-politikasi/ # Çerez Politikası sayfası
-│   │   │   └── page.tsx        # Ana sayfa
-│   │   ├── components/         # Hero, Features, Pricing, Contact vb.
-│   │   ├── lib/db.ts           # better-sqlite3 veritabanı bağlayıcısı
-│   │   └── middleware.ts       # Admin kimlik doğrulama middleware
+│   │   │   ├── admin/          # Hidden admin management panel (/admin)
+│   │   │   ├── api/admin/      # Login / Logout API routes
+│   │   │   ├── gizlilik/       # Privacy Policy page
+│   │   │   ├── hizmet-sartlari/ # Terms of Service page
+│   │   │   ├── cerez-politikasi/ # Cookie Policy page
+│   │   │   └── page.tsx        # Landing page
+│   │   ├── components/         # Hero, Features, Pricing, Contact, etc.
+│   │   ├── lib/db.ts           # better-sqlite3 database connector
+│   │   └── middleware.ts       # Admin authentication middleware
 │   └── package.json
 │
-├── screenshots/                # Uygulama ekran görüntüleri
-├── docs/                       # Ek belgeler
+├── screenshots/                # Application screenshots
+├── docs/                       # Additional documentation
 └── README.md
 ```
 
 ---
 
-## 🖥️ Masaüstü Uygulaması Özellikleri
+## 🖥️ Desktop Application Features
 
-### 🔐 Kimlik Doğrulama
-- Dinamik operatör kayıt ve giriş sistemi (SQLite tabanlı)
-- İlk açılışta otomatik kayıt ekranı yönlendirmesi
-- Şifreli oturum koruması
+### 🔐 Authentication
+- Dynamic operator registration and login system (SQLite-backed)
+- Auto-redirect to registration screen on first launch
+- Password-protected sessions
 
-### ✈️ Sefer Yönetimi
-- Firma, şoför, plaka, peron, güzergah, fiyat ile kapsamlı sefer oluşturma
-- Otomatik sefer kodu üretimi
-- Durum güncelleme: Planlandı / Yolcu Alımında / Rötarlı / İptal Edildi
-- Canlı filtre ve arama
+### ✈️ Trip Management
+- Full trip creation with company, driver, plate, platform, route, and price
+- Automatic trip code generation
+- Status management: Planned / Boarding / Delayed / Cancelled
+- Live search and filter
 
-### 🎫 Hızlı Bilet Satışı
-- 3 adımlı satış akışı: Yolcu Bilgileri → Sefer Seçimi → Koltuk & Ödeme
-- Müşteri telefon numarasıyla otomatik bilgi çekme
-- Çoklu ödeme yöntemi (Nakit / Kredi Kartı / Cari/Havale)
-- Türkçe "Evet/Hayır" onay diyalogları
+### 🎫 Quick Ticket Sales
+- 3-step sales workflow: Passenger Info → Trip Selection → Seat & Payment
+- Auto-fill customer data by phone number lookup
+- Multiple payment methods: Cash / Credit Card / Bank Transfer
+- Turkish-localized "Yes/No" confirmation dialogs (Evet/Hayır)
 
-### 💺 Dinamik Koltuk Planı
-- 2+2 / 2+1 / 3+1 otobüs düzeni desteği
-- Gerçek zamanlı dolu/boş koltuk görünümü
-- Koltuk üzerine tıklayarak yolcu bilgisi görüntüleme
+### 💺 Dynamic Seat Layout
+- Support for 2+2 / 2+1 / 3+1 bus configurations
+- Real-time occupied/available seat visualization
+- Click on any seat to view passenger information
 
-### 📋 Kontrol Paneli
-- Bugünkü bilet satışı, aktif sefer, doluluk oranı istatistikleri
-- Canlı Kalkış Tablosu (Departure Board)
-- Son bilet hareketleri listesi
-- Bilet iptal işlemi
+### 📋 Control Panel (Dashboard)
+- Today's ticket sales, active trips, and occupancy rate statistics
+- Live Departure Board
+- Recent ticket transaction feed
+- One-click ticket cancellation
 
-### 👥 Müşteri Yönetimi
-- Müşteri kayıt, listeleme ve arama
-- Telefon numarası üzerinden otomatik doldurma
+### 👥 Customer Management
+- Customer registration, listing, and search
+- Auto-fill on ticket form via phone number lookup
 
-### ⚙️ Sistem Ayarları
-- Firma adı, terminal adı, yazıcı tercihi yapılandırması
-- Veritabanı yedekleme ve geri yükleme (SQLite dosyası)
-- CSV veri dışa aktarma
+### ⚙️ System Settings
+- Company name, terminal name, printer preference configuration
+- Database backup and restore (SQLite file export)
+- CSV data export
 
-### 🔧 Uzaktan Bakım Modu
-- Web admin panelinden tek tuşla bakım modu aktif/pasif
-- Bakım modunda masaüstü uygulaması açılmaz, kullanıcıya bilgilendirme mesajı gösterilir
+### 🔧 Remote Maintenance Mode
+- Activate/deactivate maintenance mode from the web admin panel
+- While maintenance is active, the desktop app refuses to open and displays an informational message to the operator
 
 ---
 
-## 🌐 Kurumsal Web Sitesi
+## 🌐 Corporate Website
 
-Proje, masaüstü uygulamasından **tamamen bağımsız** bir Next.js 15 web sitesi içerir.
+The project includes a fully isolated Next.js 15 website, completely separate from the desktop application codebase.
 
-### Öne Çıkan Bölümler
-| Bölüm | Açıklama |
+### Sections
+| Section | Description |
 |---|---|
-| **Hero** | Uygulamanın misyonu ve CTA |
-| **Özellikler** | 6 ana modül tanıtımı |
-| **Platform Showcase** | Gerçek uygulama ekran görüntüleri |
-| **İş Akışı** | 5 adımlı operasyon süreci |
-| **Neden RouteDesk** | Native desktop avantajları |
-| **Kullanım Senaryoları** | Sektöre özel kullanım alanları |
-| **Fiyatlandırma** | Başlangıç / İşletme / Kurumsal |
-| **İletişim** | Formspree AJAX entegrasyonlu demo talebi formu |
-| **Yasal Sayfalar** | KVKK, Hizmet Şartları, Çerez Politikası |
+| **Hero** | Application mission statement and CTA |
+| **Features** | 6 core module highlights |
+| **Platform Showcase** | Real application screenshots in UI frames |
+| **Workflow** | 5-step operational process walkthrough |
+| **Why Desktop** | Advantages of native desktop over web-based tools |
+| **Use Cases** | Industry-specific usage scenarios |
+| **Pricing** | Starter / Business / Enterprise licensing tiers |
+| **Contact** | Formspree AJAX-powered demo request form (no page redirect) |
+| **Legal Pages** | Privacy Policy (KVKK), Terms of Service, Cookie Policy |
 
-### Teknik Özellikler
+### Technical Highlights
 - **Framework:** Next.js 15 (App Router)
-- **Stil:** Tailwind CSS v4
-- **İkonlar:** Lucide React
-- **Form:** Formspree AJAX (sayfa yönlendirmesiz)
-- **Özel scrollbar:** Tasarımla uyumlu webkit scrollbar
-- **Favicon:** Uygulamanın kendi `.ico` / `.png` ikonu
+- **Styling:** Tailwind CSS v4
+- **Icons:** Lucide React
+- **Form:** Formspree AJAX (seamless, no redirect)
+- **Custom scrollbar:** Webkit-styled scrollbar matching the dark theme
+- **Favicon:** Application's own `.ico` / `.png` icon across all pages
 
 ---
 
-## 🔒 Admin Yönetim Paneli (`/admin`)
+## 🔒 Admin Management Panel (`/admin`)
 
-Web sitesinde görünmez, yalnızca yetkili yöneticiler için `/admin` rotasından erişilebilir.
+Hidden from the public website — accessible only to authorized administrators via the `/admin` route.
 
-### Özellikler
-| Sekme | İşlevler |
+### Tabs & Capabilities
+| Tab | Functions |
 |---|---|
-| **Sefer Yönetimi** | Tüm seferleri listeleme, durum güncelleme, silme |
-| **Bilet İptalleri** | Son biletleri listeleme ve iptal etme |
-| **Müşteriler** | Kayıtlı müşterileri listeleme ve silme |
-| **Operatörler** | Sistem operatörlerini listeleme ve silme |
-| **Sistem Bakım** | Masaüstü uygulamasını uzaktan kilitleme/açma |
+| **Trip Management** | List all trips, update status, delete |
+| **Ticket Cancellations** | List recent tickets and cancel/delete |
+| **Customers** | List registered customers and delete |
+| **Operators** | List system operators and delete (with ID reset) |
+| **System Maintenance** | Remotely lock/unlock the desktop application |
 
-### Güvenlik
-- Next.js Middleware ile route koruması
-- `httpOnly` cookie tabanlı oturum (8 saat)
-- `sameSite: strict` CSRF koruması
-- Tüm onay işlemleri tasarıma uygun özel Modal ile
+### Security
+- Route protection via Next.js Middleware
+- `httpOnly` cookie-based session (8-hour expiry)
+- `sameSite: strict` CSRF protection
+- All destructive actions confirmed via custom themed modals (no native browser `alert`/`confirm`/`prompt`)
 
-### Veritabanı Bağlantısı
-Admin paneli, `better-sqlite3` aracılığıyla masaüstü uygulamasının SQLite veritabanına (`routedesk.db`) doğrudan bağlanır. Admin'den yapılan her işlem (sefer silme, bilet iptali, bakım modu) masaüstü uygulamasına anında yansır.
+### Live Database Connection
+The admin panel connects directly to the desktop application's SQLite database (`routedesk.db`) via `better-sqlite3`. Every action performed in the admin panel (trip deletion, ticket cancellation, maintenance mode toggle) is instantly reflected in the desktop application.
 
 ---
 
-## 🚀 Kurulum
+## 🚀 Getting Started
 
-### Masaüstü Uygulaması
+### Desktop Application
 
 ```bash
-# Gereksinimler
+# Install dependencies
 pip install PyQt6
 
-# Çalıştırma
+# Run the application
 python src/main.py
 ```
 
-### Web Sitesi
+### Website (Development)
 
 ```bash
 cd website
 npm install
 npm run dev
-# Tarayıcıda: http://localhost:3000
+# Open: http://localhost:3000
 ```
 
-### Admin Paneli
+### Admin Panel
 ```
 http://localhost:3000/admin
 ```
 
 ---
 
-## 💻 Teknolojiler
+## 💻 Tech Stack
 
-### Masaüstü
-| Teknoloji | Kullanım |
+### Desktop
+| Technology | Purpose |
 |---|---|
-| Python 3.10+ | Ana dil |
+| Python 3.10+ | Primary language |
 | PyQt6 | GUI framework |
-| SQLite | Yerel veritabanı |
-| ctypes (Windows) | AppUserModelID — görev çubuğu ikonu |
+| SQLite | Local database |
+| ctypes (Windows) | AppUserModelID — custom taskbar icon |
 
-### Web Sitesi
-| Teknoloji | Kullanım |
+### Website & Admin
+| Technology | Purpose |
 |---|---|
 | Next.js 15 | React framework (App Router) |
-| Tailwind CSS v4 | Stil sistemi |
-| Lucide React | İkon seti |
-| better-sqlite3 | Admin panel DB bağlantısı |
-| Formspree | İletişim formu API |
+| Tailwind CSS v4 | Styling system |
+| Lucide React | Icon library |
+| better-sqlite3 | Admin panel DB connector |
+| Formspree | Contact form API |
 
 ---
 
-## 📸 Ekran Görüntüleri
+## 📸 Screenshots
 
-| Kontrol Paneli | Sefer Yönetimi | Bilet Satışı |
+| Control Panel | Trip Management | Ticket Sales |
 |---|---|---|
 | ![Dashboard](screenshots/media__1779578497908.png) | ![Trips](screenshots/media__1779577956914.png) | ![Tickets](screenshots/media__1779577969553.png) |
 
 ---
 
-## 👤 Geliştirici
+## 👤 Developer
 
 **İbrahim Can Düven**  
 📧 ibrahimcanduven1@gmail.com  
-📍 Balıkesir, Türkiye
+📍 Balıkesir, Turkey
 
 ---
 
-## 📄 Lisans
+## 📄 License
 
-Bu proje özel kullanım amaçlı geliştirilmiştir. İzinsiz kopyalanamaz, dağıtılamaz.
+This project is developed for private use. Unauthorized copying or distribution is not permitted.
 
 ---
 
