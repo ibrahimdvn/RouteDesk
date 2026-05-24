@@ -1,9 +1,27 @@
-﻿import sqlite3
+import sqlite3
 import os
+import hashlib
+import secrets
 from datetime import datetime, timedelta
 import random
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "RouteDesk.db")
+
+# ── Security Helpers ──────────────────────────────────────────────────────────
+def _hash_password(password: str) -> str:
+    """Hash password with SHA-256 + random salt. Returns 'salt$hash'."""
+    salt = secrets.token_hex(16)
+    hashed = hashlib.sha256((salt + password).encode()).hexdigest()
+    return f"{salt}${hashed}"
+
+def _verify_password(password: str, stored: str) -> bool:
+    """Verify a plaintext password against a stored 'salt$hash' value."""
+    # Backwards-compat: legacy plain-text passwords (no '$' separator)
+    if '$' not in stored:
+        return stored == password
+    salt, hashed = stored.split('$', 1)
+    return hashlib.sha256((salt + password).encode()).hexdigest() == hashed
+# ─────────────────────────────────────────────────────────────────────────────
 
 class DBManager:
     @staticmethod
@@ -179,7 +197,8 @@ class DBManager:
         conn = DBManager.get_connection()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO operators (username, password, full_name) VALUES (?, ?, ?)", (username, password, full_name))
+            hashed = _hash_password(password)  # Store hashed, not plaintext
+            cursor.execute("INSERT INTO operators (username, password, full_name) VALUES (?, ?, ?)", (username, hashed, full_name))
             conn.commit()
             success = True
         except sqlite3.IntegrityError:
@@ -191,11 +210,11 @@ class DBManager:
     def verify_operator(username, password):
         conn = DBManager.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT full_name FROM operators WHERE username = ? AND password = ?", (username, password))
+        cursor.execute("SELECT full_name, password FROM operators WHERE username = ?", (username,))
         result = cursor.fetchone()
         conn.close()
-        if result:
-            return result[0]
+        if result and _verify_password(password, result[1]):
+            return result[0]  # full_name
         return None
 
     @staticmethod
