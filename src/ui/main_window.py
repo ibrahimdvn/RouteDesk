@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import (
+﻿from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QVBoxLayout, QApplication
 )
 from PyQt6.QtCore import Qt, QTimer, QEvent

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QSpacerItem, QSizePolicy, QButtonGroup, QFrame
+﻿from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QSpacerItem, QSizePolicy, QButtonGroup, QFrame
 from PyQt6.QtCore import pyqtSignal, Qt, QTimer, QDateTime
 
 class Sidebar(QWidget):

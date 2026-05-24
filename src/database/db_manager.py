@@ -1,9 +1,9 @@
-import sqlite3
+﻿import sqlite3
 import os
 from datetime import datetime, timedelta
 import random
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "routedesk.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "RouteDesk.db")
 
 class DBManager:
     @staticmethod

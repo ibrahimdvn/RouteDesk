@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -13,7 +13,7 @@ def main():
     # Windows Taskbar Icon Fix
     if os.name == 'nt':
         import ctypes
-        myappid = 'routedesk.terminal.management.1.0'
+        myappid = 'RouteDesk.terminal.management.1.0'
         try:
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
         except Exception:
@@ -37,7 +37,27 @@ def main():
             app.setStyleSheet(f.read())
             
     # Show Login Window First
-    from PyQt6.QtWidgets import QDialog
+    from PyQt6.QtWidgets import QDialog, QMessageBox
+    
+    # Check Maintenance Mode
+    try:
+        conn = DBManager.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT)")
+        cursor.execute("SELECT value FROM settings WHERE key='maintenance_mode'")
+        res = cursor.fetchone()
+        conn.close()
+        
+        if res and res[0] == "true":
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Sistem Bakımı")
+            msg.setText("Sistem şu anda uzaktan bakım modundadır.\n\nLütfen yönetici tarafından bakımın bitirilmesini bekleyin.")
+            msg.exec()
+            sys.exit(0)
+    except Exception as e:
+        pass
+
     from ui.login_window import LoginWindow
     login = LoginWindow()
     if login.exec() == QDialog.DialogCode.Accepted:

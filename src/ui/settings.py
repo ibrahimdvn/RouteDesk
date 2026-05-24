@@ -1,4 +1,4 @@
-import os
+﻿import os
 import json
 import shutil
 import csv
@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import pyqtSignal
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "config.json")
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "routedesk.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "RouteDesk.db")
 
 class Settings(QWidget):
     settings_saved = pyqtSignal()
@@ -165,7 +165,7 @@ class Settings(QWidget):
             QMessageBox.warning(self, "Uyarı", "Yedeklenecek veritabanı bulunamadı.")
             return
             
-        file_path, _ = QFileDialog.getSaveFileName(self, "Yedek Kaydet", "routedesk_yedek.db", "SQLite Veritabanı (*.db)")
+        file_path, _ = QFileDialog.getSaveFileName(self, "Yedek Kaydet", "RouteDesk_yedek.db", "SQLite Veritabanı (*.db)")
         if file_path:
             try:
                 shutil.copy2(DB_PATH, file_path)
@@ -176,11 +176,16 @@ class Settings(QWidget):
     def restore_db(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Yedek Seç", "", "SQLite Veritabanı (*.db)")
         if file_path:
-            reply = QMessageBox.question(self, 'Onay', 
-                "Mevcut veritabanının üzerine yazılacak. Tüm mevcut veriler silinip seçilen yedek yüklenecek. Onaylıyor musunuz?",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
-            
-            if reply == QMessageBox.StandardButton.Yes:
+            msg = QMessageBox(self)
+            msg.setWindowTitle('Onay')
+            msg.setText("Mevcut veritabanının üzerine yazılacak. Tüm mevcut veriler silinip seçilen yedek yüklenecek. Onaylıyor musunuz?")
+            msg.setIcon(QMessageBox.Icon.Question)
+            evet = msg.addButton("Evet", QMessageBox.ButtonRole.YesRole)
+            msg.addButton("Hayır", QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(evet)
+            msg.exec()
+
+            if msg.clickedButton() == evet:
                 try:
                     shutil.copy2(file_path, DB_PATH)
                     QMessageBox.information(self, "Başarılı", "Veritabanı başarıyla geri yüklendi. Uygulamayı yeniden başlatmanız önerilir.")

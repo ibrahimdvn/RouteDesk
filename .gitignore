@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 routedesk.db
 .env
+
+SeatFlow.db
+*.db

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import (
+﻿from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
     QPushButton, QFormLayout, QFrame, QComboBox, QMessageBox, QRadioButton, QButtonGroup
 )
@@ -234,11 +234,16 @@ class TicketSales(QWidget):
         price = user_data.get("price", 0) if user_data else 0
         
         # Confirmation Modal
-        reply = QMessageBox.question(self, 'Onay', 
-            f"{self.name_input.text()} için bilet kesilecektir.\nToplam: {len(seats)*price:,} ₺\nOnaylıyor musunuz?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
-            
-        if reply == QMessageBox.StandardButton.Yes:
+        msg = QMessageBox(self)
+        msg.setWindowTitle('Onay')
+        msg.setText(f"{self.name_input.text()} için bilet kesilecektir.\nToplam: {len(seats)*price:,} ₺\nOnaylıyor musunuz?")
+        msg.setIcon(QMessageBox.Icon.Question)
+        evet = msg.addButton("Evet", QMessageBox.ButtonRole.YesRole)
+        msg.addButton("Hayır", QMessageBox.ButtonRole.NoRole)
+        msg.setDefaultButton(evet)
+        msg.exec()
+
+        if msg.clickedButton() == evet:
             from database.db_manager import DBManager
             passenger_name = self.name_input.text()
             tc_no = self.tc_input.text()

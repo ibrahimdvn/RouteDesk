@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import (
+﻿from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGridLayout, QFrame, 
     QTableWidget, QTableWidgetItem, QHeaderView, QListWidget, QListWidgetItem, QPushButton
 )
@@ -204,11 +204,16 @@ class Dashboard(QWidget):
         if not ticket_id:
             return
             
-        reply = QMessageBox.question(self, 'Onay', 
-            f"Seçili bileti iptal etmek istediğinize emin misiniz?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
-            
-        if reply == QMessageBox.StandardButton.Yes:
+        msg = QMessageBox(self)
+        msg.setWindowTitle('Onay')
+        msg.setText("Seçili bileti iptal etmek istediğinize emin misiniz?")
+        msg.setIcon(QMessageBox.Icon.Question)
+        evet = msg.addButton("Evet", QMessageBox.ButtonRole.YesRole)
+        msg.addButton("Hayır", QMessageBox.ButtonRole.NoRole)
+        msg.setDefaultButton(evet)
+        msg.exec()
+
+        if msg.clickedButton() == evet:
             DBManager.delete_ticket(ticket_id)
             self.load_data()
             QMessageBox.information(self, "Başarılı", "Bilet başarıyla iptal edildi ve sistemden silindi.")

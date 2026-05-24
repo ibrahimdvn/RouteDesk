@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import (
+﻿from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTableWidget, QTableWidgetItem, 
     QHeaderView, QPushButton, QComboBox, QLineEdit, QDialog, QFormLayout, QMessageBox
 )
@@ -191,11 +191,16 @@ class TripManagement(QWidget):
         code_item = self.table.item(row, 2) # Kolon 2 = Kod
         if code_item:
             code = code_item.text()
-            reply = QMessageBox.question(self, 'Onay', 
-                f"{code} kodlu seferi silmek istediğinize emin misiniz?",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
-                
-            if reply == QMessageBox.StandardButton.Yes:
+            msg = QMessageBox(self)
+            msg.setWindowTitle('Onay')
+            msg.setText(f"{code} kodlu seferi silmek istediğinize emin misiniz?")
+            msg.setIcon(QMessageBox.Icon.Question)
+            evet = msg.addButton("Evet", QMessageBox.ButtonRole.YesRole)
+            msg.addButton("Hayır", QMessageBox.ButtonRole.NoRole)
+            msg.setDefaultButton(evet)
+            msg.exec()
+
+            if msg.clickedButton() == evet:
                 DBManager.delete_trip(code)
                 self.load_data()
                 QMessageBox.information(self, "Başarılı", f"{code} seferi silindi.")
