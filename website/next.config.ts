@@ -36,6 +36,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   experimental: {
+    // @ts-expect-error: Next.js 15 turbopack property might not be in the TS definitions yet
     turbopack: {
       root: __dirname,
     },
